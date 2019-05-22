@@ -24,7 +24,7 @@ elif [ "$1" == "save" ]; then
   docker image save demo-rest1:latest -o images/demo-rest1.tar
 elif [ "$1" == "up" ]; then
   if [ "$2" == "--dev" ]; then
-    docker-compose -f docker-compose.yml -f docker-compose.debug.yml up
+    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
   else
     docker-compose up
   fi
