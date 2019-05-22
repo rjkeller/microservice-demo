@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  demo-auth-db1:
+    image: mariadb:10.4
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=456123
+      - MYSQL_DATABASE=demo
+    volumes:
+      - ./docker-volumes/demo-auth-db1/mysql:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"

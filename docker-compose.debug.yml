@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  # Add ability to view database using phpMyAdmin on port 8181
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - demo-auth-db1:demo-auth-db1
+    ports:
+      - 8181:80
+    environment:
+      - PMA_HOST=demo-auth-db1
