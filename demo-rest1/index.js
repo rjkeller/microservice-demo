@@ -5,7 +5,7 @@ const superagent = require('superagent');
 
 const isValid = async (token) =>
   (await superagent
-    .post(`${process.env.AUTH_MICROSERVICE_URL}/v1/isValid`)
+    .post(`${process.env.AUTH_MICROSERVICE_URL}/${process.env.VERSION}/isValid`)
     .send({token: token}))
     .body;
 
@@ -21,7 +21,7 @@ const main = async () => {
   }));
   app.use(compression());
 
-  app.post('/v1/test', async (req, res) => {
+  app.post(`/${process.env.VERSION}/test`, async (req, res) => {
     const tokenValidResult = await isValid(req.body.token)
     console.log('got valid result:', tokenValidResult)
 

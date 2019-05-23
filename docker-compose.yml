@@ -12,21 +12,24 @@ services:
       - "127.0.0.1:3306:3306"
 
   demo-auth1:
-    image: demo-auth1:latest
+    image: demo-auth1:v1.0
     links:
       - demo-auth-db1:demo-auth-db1
     environment:
+      - VERSION=v1
       - MYSQL_DB_USER=root
       - MYSQL_DB_PASSWORD=456123
       - MYSQL_DB_NAME=demo
       - MYSQL_DB_HOST=demo-auth-db1
 
   demo-rest1:
-    image: demo-rest1:latest
+    image: demo-rest1:v1.0
     links:
       - demo-auth1:demo-auth1
     environment:
+      - VERSION=v1
       - AUTH_MICROSERVICE_URL=http://demo-auth1
+
   lb:
     image: nginx:1.13-alpine
     ports:

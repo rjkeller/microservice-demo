@@ -6,12 +6,20 @@ const mysql = require('promise-mysql');
 
 const main = async () => {
   // Start MySQL connection
-  const conn = await mysql.createConnection({
-    host: process.env.MYSQL_DB_HOST,
-    user: process.env.MYSQL_DB_USER,
-    password: process.env.MYSQL_DB_PASSWORD,
-    database: process.env.MYSQL_DB_NAME
-  });
+  let conn
+  while (!conn) {
+    try {
+      conn = await mysql.createConnection({
+        host: process.env.MYSQL_DB_HOST,
+        user: process.env.MYSQL_DB_USER,
+        password: process.env.MYSQL_DB_PASSWORD,
+        database: process.env.MYSQL_DB_NAME
+      });
+    } catch (ex) {
+      console.log(ex);
+      await sleep(1000)
+    }
+  }
 
   // Then boot up express:
   const app = express();
@@ -24,7 +32,7 @@ const main = async () => {
   }));
   app.use(compression());
 
-  app.post('/v1/authenticate', async (req, res) => {
+  app.post(`/${process.env.VERSION}/authenticate`, async (req, res) => {
     console.log('Starting to authenticate!');
     const rows = await conn.query(`
       SELECT
@@ -44,7 +52,7 @@ const main = async () => {
     }
   })
 
-  app.post('/v1/isValid', async (req, res) => {
+  app.post(`/${process.env.VERSION}/isValid`, async (req, res) => {
     console.log('Trying to authenticate token:', req.body.token);
     jwt.verify(req.body.token, process.env.JWT_SECRET_KEY, (err, token) => {
       if (err) {
