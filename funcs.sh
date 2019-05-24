@@ -15,13 +15,13 @@ elif [ "$1" == "flush" ]; then
   docker rm $(docker ps -a -q)
   docker rmi $(docker images -q)
 elif [ "$1" == "load" ]; then
-  docker load < images/demo-auth1.tar
-  docker load < images/demo-rest1.tar
+  docker load < images/demo-auth1_v1.0.tar
+  docker load < images/demo-rest1_v1.0.tar
 elif [ "$1" == "save" ]; then
   rm -rf images
   mkdir images
-  docker image save demo-auth1:v1.0 -o images/demo-auth1.tar
-  docker image save demo-rest1:v1.0 -o images/demo-rest1.tar
+  docker image save demo-auth1:v1.0 -o images/demo-auth1_v1.0.tar
+  docker image save demo-rest1:v1.0 -o images/demo-rest1_v1.0.tar
 elif [ "$1" == "up" ]; then
   if [ "$2" == "--dev" ]; then
     docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
